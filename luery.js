@@ -171,16 +171,12 @@ function getCookie(k){
         let s = c[i].trim();
         if(!s.indexOf(k)) return s.substring(e.length,s.length);
     }
-    return null;
+    return "";
 }
 function setCookie(k,v,e){
     let d = new Date;
     d.setTime(d.getTime() + e * 24 * 60 * 60 * 1000);
-    let c = document.cookie.split(";");
-    for(let i = 0; i < c.length; i++){
-        let s = c[i].trim();
-        if(!s.indexOf(k)){}
-    }
-    c.splice(c.indexOf(""),1) = k + "=" + v + ";expires=" + d.toGMTString();
+    document.cookie = k + "=" + v + "; expires=" + d.toUTCString();
     return getCookie(k);
 }
+function removeCookie(k){setCookie(k,"",-1);}
