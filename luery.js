@@ -38,15 +38,15 @@ HTMLCollection.prototype.removeClass=function(c){
     if(!!c.match(" ")) throw new TypeError("dont remove multiple class at one call");
     for(let i = 0; i < this.length; i++){
         if(this[i].hasClass(c)){
-            this[i].className = this[i].className.replace(c,"");
-            this[i].className = this[i].className.replace(/^\s+|\s+$/g,"");
-            this[i].className = this[i].className.replace("  "," ");
+            this[i].className=this[i].className.replace(c,"");
+            this[i].className=this[i].className.replace(/^\s+|\s+$/g,"");
+            this[i].className=this[i].className.replace("  "," ");
         }
     } 
     return this;
 }
-HTMLCollection.prototype.hide = function(){this.css("display","none");return this;}
-HTMLCollection.prototype.show = function(){this.css("display","unset");return this;}
+HTMLCollection.prototype.hide=function(){this.css("display","none");return this;}
+HTMLCollection.prototype.show=function(){this.css("display","unset");return this;}
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 if(HTMLElement){
     HTMLElement.prototype.css=function(a,b){
@@ -76,8 +76,8 @@ if(HTMLElement){
         return this;
     }
     HTMLElement.prototype.parent=function(){return this.parentNode || this.parentElement;}
-    HTMLElement.prototype.hide = function(){this.css("display","none");return this;}
-    HTMLElement.prototype.show = function(){this.css("display","unset");return this;}
+    HTMLElement.prototype.hide=function(){this.css("display","none");return this;}
+    HTMLElement.prototype.show=function(){this.css("display","unset");return this;}
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 else if(Element){//不推荐，影响了其他元素
@@ -108,8 +108,8 @@ else if(Element){//不推荐，影响了其他元素
         return this;
     }
     Element.prototype.parent=function(){return this.parentNode || this.parentElement;}
-    Element.prototype.hide = function(){this.css("display","none");return this;}
-    Element.prototype.show = function(){this.css("display","unset");return this;}
+    Element.prototype.hide=function(){this.css("display","none");return this;}
+    Element.prototype.show=function(){this.css("display","unset");return this;}
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 else lueryFail();//可自定义错误函数
