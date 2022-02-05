@@ -15,7 +15,7 @@ function $Events(o,e,f){for(let i = 0; i < o.length; i++) o[i].addEventListener(
 
 HTMLCollection.prototype.css=function(a,b){
     for(let i = 0; i < this.length; i++){
-        if(b != undefined){this[i].style.setProperty(a,b);}
+        if(b !== undefined){this[i].style.setProperty(a,b);}
         else if(isJSONObject(a)){
             for(k in a) this[i].style.setProperty(k,a[k]);
         }
@@ -28,6 +28,7 @@ HTMLCollection.prototype.css=function(a,b){
 }
 //.prototype.hasClass=function(c){} 不可能同时给一大堆元素判断是否有class吧
 HTMLCollection.prototype.addClass=function(c){
+    if(!c) throw new TypeError("Invalid argument");
     for(let i = 0; i < this.length; i++){
         if(this[i].className == "") this[i].className += c;
         else this[i].className += " " + c;
@@ -50,7 +51,7 @@ HTMLCollection.prototype.show=function(){this.css("display","unset");return this
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 if(HTMLElement){
     HTMLElement.prototype.css=function(a,b){
-        if(b != undefined){this.style.setProperty(a,b); return this;}
+        if(b !== undefined){this.style.setProperty(a,b); return this;}
         else if(isJSONObject(a)){
             for(k in a) this.style.setProperty(k,a[k]);
             return this;
@@ -62,6 +63,7 @@ if(HTMLElement){
     }
     HTMLElement.prototype.hasClass=function(c){return !!this.className.match(new RegExp("(\\s|^)" + c + "(\\s|$)"));}
     HTMLElement.prototype.addClass=function(c){
+        if(!c) throw new TypeError("Invalid argument");
         if(this.className == "") this.className += c;
         else this.className += " " + c;
         return this;
@@ -83,7 +85,7 @@ if(HTMLElement){
         let o = this;
         for(let i = 0;i < 1291; i++){
             if(o.hasClass(c)) return true;
-            if(o.tagName=="HTML") return false;
+            if(o.tagName == "HTML") return false;
             o = o.parent();
         }
     }
@@ -91,58 +93,17 @@ if(HTMLElement){
         if(!c) throw new TypeError("Invalid argument");
         let o = this;
         for(let i = 0;i < 1291; i++){
-            if(o.id===c) return true;
-            if(o.tagName=="HTML") return false;
+            if(o.id === c) return true;
+            if(o.tagName == "HTML") return false;
             o = o.parent();
         }
     }
-}
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-else if(Element){//不推荐，影响了其他元素
-    Element.prototype.css=function(a,b){
-        if(b != undefined){this.style.setProperty(a,b); return this;}
-        else if(isJSONObject(a)){
-            for(k in a) this.style.setProperty(k,a[k]);
-            return this;
-        }
-        else{
-            if(getComputedStyle) return document.defaultView.getComputedStyle(this,false)[a];
-            else return Element.currentStyle[a];
-        }
-    }
-    Element.prototype.hasClass=function(c){return !!this.className.match(new RegExp("(\\s|^)" + c + "(\\s|$)"));}
-    Element.prototype.addClass=function(c){
-        if(this.className == "") this.className += c;
-        else this.className += " " + c;
-        return this;
-    }
-    Element.prototype.removeClass=function(c){
-        if(!!c.match(" ")) throw new TypeError("dont remove multiple class at one call");
-        if(this.hasClass(c)){
-            this.className = this.className.replace(c,"");
-            this.className = this.className.replace(/^\s+|\s+$/g,"");
-            this.className = this.className.replace("  "," ");
-        }
-        return this;
-    }
-    Element.prototype.parent=function(){return this.parentNode || this.parentElement;}
-    Element.prototype.hide=function(){this.css("display","none");return this;}
-    Element.prototype.show=function(){this.css("display","unset");return this;}
-    Element.prototype.isInClass=function(c){
+    HTMLElement.prototype.getParentByClass=function(c){
         if(!c) throw new TypeError("Invalid argument");
         let o = this;
         for(let i = 0;i < 1291; i++){
-            if(o.hasClass(c)) return true;
-            if(o.tagName=="HTML") return false;
-            o = o.parent();
-        }
-    }
-    Element.prototype.isInId=function(c){
-        if(!c) throw new TypeError("Invalid argument");
-        let o = this;
-        for(let i = 0;i < 1291; i++){
-            if(o.id===c) return true;
-            if(o.tagName=="HTML") return false;
+            if(o.hasClass(c)) return o;
+            if(o.tagName == "HTML") return null;
             o = o.parent();
         }
     }
