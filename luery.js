@@ -3,6 +3,7 @@
  * Herobrine保佑 永不出bug
  */
 console.log("luery.js ©LJM12914\r\nhttps://github.com/ljm12914");
+const I = "Invalid argument";
 function $(o){
     if(!o.indexOf("#")) return document.getElementById(o.replace("#",""));
     else if(!o.indexOf(".")) return document.getElementsByClassName(o.replace(".",""));
@@ -28,7 +29,7 @@ HTMLCollection.prototype.css=function(a,b){
 }
 //.prototype.hasClass=function(c){} 不可能同时给一大堆元素判断是否有class吧
 HTMLCollection.prototype.addClass=function(c){
-    if(!c) throw new TypeError("Invalid argument");
+    if(!c) throw new TypeError(I);
     for(let i = 0; i < this.length; i++){
         if(this[i].className == "") this[i].className += c;
         else this[i].className += " " + c;
@@ -36,7 +37,7 @@ HTMLCollection.prototype.addClass=function(c){
     return this;
 }
 HTMLCollection.prototype.removeClass=function(c){
-    if(!!c.match(" ")) throw new TypeError("dont remove multiple class at one call");
+    if(!!c.match(" ")) throw new TypeError(I);
     for(let i = 0; i < this.length; i++){
         if(this[i].hasClass(c)){
             this[i].className=this[i].className.replace(c,"");
@@ -50,7 +51,6 @@ HTMLCollection.prototype.hide=function(){this.css("display","none");return this;
 HTMLCollection.prototype.show=function(){this.css("display","unset");return this;}
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 if(HTMLElement){
-    const I = "Invalid argument";
     HTMLElement.prototype.css=function(a,b){
         if(b !== undefined){this.style.setProperty(a,b); return this;}
         else if(isJSONObject(a)){
@@ -135,7 +135,7 @@ function tt(o,t){
         case "aw": return o.outerWidth;
         case "ph": return o.clientHeight - parseInt(o.css("padding-top").replace("px","")) - parseInt(o.css("padding-bottom").replace("px",""));
         case "pw": return o.clientWidth - parseInt(o.css("padding-left").replace("px","")) - parseInt(o.css("padding-right").replace("px",""));
-        default: throw new ReferenceError("luery-tt: unknown magic letter");
+        default: throw new ReferenceError("unknown magic letter");
     }
 }
 
