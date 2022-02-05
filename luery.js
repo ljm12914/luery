@@ -50,6 +50,7 @@ HTMLCollection.prototype.hide=function(){this.css("display","none");return this;
 HTMLCollection.prototype.show=function(){this.css("display","unset");return this;}
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 if(HTMLElement){
+    const I = "Invalid argument";
     HTMLElement.prototype.css=function(a,b){
         if(b !== undefined){this.style.setProperty(a,b); return this;}
         else if(isJSONObject(a)){
@@ -63,13 +64,13 @@ if(HTMLElement){
     }
     HTMLElement.prototype.hasClass=function(c){return !!this.className.match(new RegExp("(\\s|^)" + c + "(\\s|$)"));}
     HTMLElement.prototype.addClass=function(c){
-        if(!c) throw new TypeError("Invalid argument");
+        if(!c) throw new TypeError(I);
         if(this.className == "") this.className += c;
         else this.className += " " + c;
         return this;
     }
     HTMLElement.prototype.removeClass=function(c){
-        if(!!c.match(" ")) throw new TypeError("dont remove multiple class at one call");
+        if(!!c.match(" ")) throw new TypeError(I);
         if(this.hasClass(c)){
             this.className = this.className.replace(c,"");
             this.className = this.className.replace(/^\s+|\s+$/g,"");
@@ -81,7 +82,7 @@ if(HTMLElement){
     HTMLElement.prototype.hide=function(){this.css("display","none");return this;}
     HTMLElement.prototype.show=function(){this.css("display","unset");return this;}
     HTMLElement.prototype.isInClass=function(c){
-        if(!c) throw new TypeError("Invalid argument");
+        if(!c) throw new TypeError(I);
         let o = this;
         for(let i = 0;i < 1291; i++){
             if(o.hasClass(c)) return true;
@@ -90,7 +91,7 @@ if(HTMLElement){
         }
     }
     HTMLElement.prototype.isInId=function(c){
-        if(!c) throw new TypeError("Invalid argument");
+        if(!c) throw new TypeError(I);
         let o = this;
         for(let i = 0;i < 1291; i++){
             if(o.id === c) return true;
@@ -99,7 +100,7 @@ if(HTMLElement){
         }
     }
     HTMLElement.prototype.getParentByClass=function(c){
-        if(!c) throw new TypeError("Invalid argument");
+        if(!c) throw new TypeError(I);
         let o = this;
         for(let i = 0;i < 1291; i++){
             if(o.hasClass(c)) return o;
