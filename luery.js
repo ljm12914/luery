@@ -184,8 +184,10 @@ function removeCookie(k){setCookie(k,"",-1);}
 
 //获取滚动条宽度
 scrollBarWidth = getScrollBarWidth();
-function getScrollBarWidth(){
-    let n,s,d = document.createElement("div");
+function getScrollBarWidth(o){
+    let n,s,d;
+    if(o === undefined) d = document.createElement("div");
+    else d = o.cloneNode(true);
     d.css({"position":"absolute","top":"-9999px","width":"999px","height":"999px","overflow":"hidden"});
     n = document.body.appendChild(d).clientWidth;
     d.css("overflow","scroll");
