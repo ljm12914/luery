@@ -12,7 +12,10 @@ function $(o){
 }
 
 //$批量绑定事件
-function $Events(o,e,f){for(let i = 0; i < o.length; i++) o[i].addEventListener(e,f);}
+function $Events(o,e,f){
+    if(o.toString().indexOf("Collection") != -1) for(let i = 0; i < o.length; i++) o[i].addEventListener(e,f);
+    else if(o.toString().indexOf("Element") != -1) o.addEventListener(e,f);
+}
 
 HTMLCollection.prototype.css=function(a,b){
     for(let i = 0; i < this.length; i++){
@@ -178,3 +181,15 @@ function setCookie(k,v,e){
     return getCookie(k);
 }
 function removeCookie(k){setCookie(k,"",-1);}
+
+//获取滚动条宽度
+scrollBarWidth = getScrollBarWidth();
+function getScrollBarWidth(){
+    let n,s,d = document.createElement("div");
+    d.css({"position":"absolute","top":"-9999px","width":"999px","height":"999px","overflow":"hidden"});
+    n = document.body.appendChild(d).clientWidth;
+    d.css("overflow","scroll");
+    s = d.clientWidth;
+    document.body.removeChild(d);
+    return n - s;
+}
