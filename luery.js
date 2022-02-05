@@ -84,7 +84,7 @@ if(HTMLElement){
     HTMLElement.prototype.isInClass=function(c){
         if(!c) throw new TypeError(I);
         let o = this;
-        for(let i = 0;i < 1291; i++){
+        while(true){
             if(o.hasClass(c)) return true;
             if(o.tagName == "HTML") return false;
             o = o.parent();
@@ -93,7 +93,7 @@ if(HTMLElement){
     HTMLElement.prototype.isInId=function(c){
         if(!c) throw new TypeError(I);
         let o = this;
-        for(let i = 0;i < 1291; i++){
+        while(true){
             if(o.id === c) return true;
             if(o.tagName == "HTML") return false;
             o = o.parent();
@@ -102,7 +102,7 @@ if(HTMLElement){
     HTMLElement.prototype.getParentByClass=function(c){
         if(!c) throw new TypeError(I);
         let o = this;
-        for(let i = 0;i < 1291; i++){
+        while(true){
             if(o.hasClass(c)) return o;
             if(o.tagName == "HTML") return null;
             o = o.parent();
