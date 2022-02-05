@@ -78,6 +78,24 @@ if(HTMLElement){
     HTMLElement.prototype.parent=function(){return this.parentNode || this.parentElement;}
     HTMLElement.prototype.hide=function(){this.css("display","none");return this;}
     HTMLElement.prototype.show=function(){this.css("display","unset");return this;}
+    HTMLElement.prototype.isInClass=function(c){
+        if(!c) throw new TypeError("Invalid argument");
+        let o = this;
+        for(let i = 0;i < 1291; i++){
+            if(o.hasClass(c)) return true;
+            if(o.tagName=="HTML") return false;
+            o = o.parent();
+        }
+    }
+    HTMLElement.prototype.isInId=function(c){
+        if(!c) throw new TypeError("Invalid argument");
+        let o = this;
+        for(let i = 0;i < 1291; i++){
+            if(o.id===c) return true;
+            if(o.tagName=="HTML") return false;
+            o = o.parent();
+        }
+    }
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 else if(Element){//不推荐，影响了其他元素
@@ -110,6 +128,24 @@ else if(Element){//不推荐，影响了其他元素
     Element.prototype.parent=function(){return this.parentNode || this.parentElement;}
     Element.prototype.hide=function(){this.css("display","none");return this;}
     Element.prototype.show=function(){this.css("display","unset");return this;}
+    Element.prototype.isInClass=function(c){
+        if(!c) throw new TypeError("Invalid argument");
+        let o = this;
+        for(let i = 0;i < 1291; i++){
+            if(o.hasClass(c)) return true;
+            if(o.tagName=="HTML") return false;
+            o = o.parent();
+        }
+    }
+    Element.prototype.isInId=function(c){
+        if(!c) throw new TypeError("Invalid argument");
+        let o = this;
+        for(let i = 0;i < 1291; i++){
+            if(o.id===c) return true;
+            if(o.tagName=="HTML") return false;
+            o = o.parent();
+        }
+    }
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 else lueryFail();//可自定义错误函数
