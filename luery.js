@@ -5,17 +5,16 @@
 "use strict";
 console.log("luery.js ©LJM12914\r\nhttps://github.com/ljm12914");
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
-(()=>{
+(_=>{
     eval("window.luery = window." + (window.lueryShortCut || "$") + " = luery;");
     function luery(s){return new luery.prototype.processInput(s);}
-    luery.prototype = {
+    luery.p = luery.prototype = {
         constructor:luery,
         processInput:function(s){
             if(!s) luery.E();
             else if(typeof s == "string") return document.querySelectorAll(s);
         }
     }
-    luery.prototype.processInput.prototype = luery.prototype;
     luery.addFunc = luery.prototype.addFunc = function(o){for(let k in o) this[k]=o[k];}
     luery.addFunc({
         //批量绑定事件
@@ -88,11 +87,11 @@ console.log("luery.js ©LJM12914\r\nhttps://github.com/ljm12914");
             switch(t){
                 case "t": return parseInt(o.css("top").replace("px",""));
                 case "ft": return o.getBoundingClientRect().top;
-                case "b": return tt(o,"t") + tt(o,"h");
+                case "b": return $.tt(o,"t") + $.tt(o,"h");
                 case "fb": return o.getBoundingClientRect().bottom;
                 case "l": return parseInt(o.css("left").replace("px",""));
                 case "fl": return o.getBoundingClientRect().left;
-                case "r": return tt(o,"l") + tt(o,"w");
+                case "r": return $.tt(o,"l") + $.tt(o,"w");
                 case "fr": return o.getBoundingClientRect().right;
                 case "h": return o.offsetHeight;
                 case "w": return o.offsetWidth;
@@ -106,41 +105,47 @@ console.log("luery.js ©LJM12914\r\nhttps://github.com/ljm12914");
     });
 })();
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
-NodeList.prototype.css=function(a,b){
-    for(let i = 0; i < this.length; i++) this[i].css(a,b);
+NodeList.p = NodeList.prototype;
+NodeList.p.css=function(a,b){//只允许set，因为get多个可能出现冲突
+    if(b === undefined && !luery.isJSONObject(a)) luery.E();
+    for(let i = 0; i < this.length; i++){
+        if(b !== undefined) this[i].style.setProperty(a,b);
+        else for(let k in a) this[i].style.setProperty(k,a[k]);//必然是JSON了
+    }
     return this;
 }
 //.prototype.hasClass=function(c){} 不可能同时给一大堆元素判断是否有class吧
-NodeList.prototype.addClass=function(c){
+NodeList.p.addClass=function(c){
     for(let i = 0; i < this.length; i++) this[i].addClass(c);
     return this;
 }
-NodeList.prototype.removeClass=function(c){
+NodeList.p.removeClass=function(c){
     for(let i = 0; i < this.length; i++) this[i].removeClass(c);
     return this;
 }
-NodeList.prototype.hide=function(){
+NodeList.p.hide=function(){
     this.css("display","none");
     return this;
 }
-NodeList.prototype.show=function(){
+NodeList.p.show=function(){
     this.css("display","");
     return this;
 }
-NodeList.prototype.setAttribute=function(k,v){
+NodeList.p.setAttribute=function(k,v){
     for(let i = 0; i < this.length; i++) this[i].setAttribute(k,v);
     return this;
 }
-NodeList.prototype.removeAttribute=function(k){
+NodeList.p.removeAttribute=function(k){
     for(let i = 0; i < this.length; i++) this[i].removeAttribute(k);
     return this;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 if(HTMLElement){
-    HTMLElement.prototype.css=function(a,b){
+    HTMLElement.p = HTMLElement.prototype;
+    HTMLElement.p.css=function(a,b){
         if(b !== undefined){this.style.setProperty(a,b); return this;}
         else if(luery.isJSONObject(a)){
-            for(let k = 0; k < a.length; k++) this.style.setProperty(k,a[k]);
+            for(let k in a) this.style.setProperty(k,a[k]);
             return this;
         }
         else{//本来需要转驼峰才能正常，不知为何不转也可以
@@ -148,14 +153,14 @@ if(HTMLElement){
             else return Element.currentStyle[a];
         }
     }
-    HTMLElement.prototype.hasClass=function(c){return !!this.className.match(new RegExp("(\\s|^)" + c + "(\\s|$)"));}
-    HTMLElement.prototype.addClass=function(c){
+    HTMLElement.p.hasClass=function(c){return !!this.className.match(new RegExp("(\\s|^)" + c + "(\\s|$)"));}
+    HTMLElement.p.addClass=function(c){
         if(!c) luery.E();
         if(this.className == "") this.className += c;
         else this.className += " " + c;
         return this;
     }
-    HTMLElement.prototype.removeClass=function(c){
+    HTMLElement.p.removeClass=function(c){
         if(!!c.match(" ")) luery.E();
         if(this.hasClass(c)){
             this.className = this.className.replace(c,"");
@@ -164,10 +169,10 @@ if(HTMLElement){
         }
         return this;
     }
-    HTMLElement.prototype.parent=function(){return this.parentNode || this.parentElement;}
-    HTMLElement.prototype.hide=function(){this.css("display","none");return this;}
-    HTMLElement.prototype.show=function(){this.css("display","unset");return this;}
-    HTMLElement.prototype.isInClass=function(c){
+    HTMLElement.p.parent=function(){return this.parentNode || this.parentElement;}
+    HTMLElement.p.hide=function(){this.css("display","none");return this;}
+    HTMLElement.p.show=function(){this.css("display","unset");return this;}
+    HTMLElement.p.isInClass=function(c){
         if(!c) luery.E();
         let o = this;
         while(true){
@@ -176,7 +181,7 @@ if(HTMLElement){
             o = o.parent();
         }
     }
-    HTMLElement.prototype.isInId=function(c){
+    HTMLElement.p.isInId=function(c){
         if(!c) luery.E();
         let o = this;
         while(true){
@@ -185,7 +190,7 @@ if(HTMLElement){
             o = o.parent();
         }
     }
-    HTMLElement.prototype.getParentByClass=function(c){
+    HTMLElement.p.getParentByClass=function(c){
         if(!c) luery.E();
         let o = this;
         while(true){
