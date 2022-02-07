@@ -2,62 +2,57 @@
  * 一个轻量级的Javascript拓展库。
  * Herobrine保佑 永不出bug
  */
+"use strict";
 console.log("luery.js ©LJM12914\r\nhttps://github.com/ljm12914");
 const I = "Invalid argument";
-function $(o){
-    if(!o.indexOf("#")) return document.getElementById(o.replace("#",""));
-    else if(!o.indexOf(".")) return document.getElementsByClassName(o.replace(".",""));
-    //else if(o == "*") return document.getElementsByTagName("*");
-    else return document.getElementsByTagName(o);
-}
-
-//$批量绑定事件
-function $Events(o,e,f){
-    if(o.toString().indexOf("Collection") != -1) for(let i = 0; i < o.length; i++) o[i].addEventListener(e,f);
-    else if(o.toString().indexOf("Element") != -1) o.addEventListener(e,f);
-}
-
-HTMLCollection.prototype.css=function(a,b){
-    for(let i = 0; i < this.length; i++){
-        if(b !== undefined){this[i].style.setProperty(a,b);}
-        else if(isJSONObject(a)){
-            for(k in a) this[i].style.setProperty(k,a[k]);
-        }
-        else{
-            if(getComputedStyle) return document.defaultView.getComputedStyle(this[i],false)[a];
-            else return Element.currentStyle[a];
+var $ = (function(o){
+    if(o) return document.querySelectorAll(o);
+    else return new luery;
+});
+var luery = (function(){
+    return{
+        Events:function(o,e,f){
+            if(!((o + "").indexOf("NodeList") + 1)) o.addEventListener(e,f);
+            else if(!((o + "").indexOf("Element") + 1)) for(let i = 0; i < o.length; i++) o[i].addEventListener(e,f);
         }
     }
+});
+
+NodeList.prototype.css=function(a,b){
+    for(let i = 0; i < this.length; i++) this[i].css(a,b);
     return this;
 }
 //.prototype.hasClass=function(c){} 不可能同时给一大堆元素判断是否有class吧
-HTMLCollection.prototype.addClass=function(c){
-    if(!c) throw new TypeError(I);
-    for(let i = 0; i < this.length; i++){
-        if(this[i].className == "") this[i].className += c;
-        else this[i].className += " " + c;
-    }
+NodeList.prototype.addClass=function(c){
+    for(let i = 0; i < this.length; i++) this[i].addClass(c);
     return this;
 }
-HTMLCollection.prototype.removeClass=function(c){
-    if(!!c.match(" ")) throw new TypeError(I);
-    for(let i = 0; i < this.length; i++){
-        if(this[i].hasClass(c)){
-            this[i].className=this[i].className.replace(c,"");
-            this[i].className=this[i].className.replace(/^\s+|\s+$/g,"");
-            this[i].className=this[i].className.replace("  "," ");
-        }
-    } 
+NodeList.prototype.removeClass=function(c){
+    for(let i = 0; i < this.length; i++) this[i].removeClass(c);
     return this;
 }
-HTMLCollection.prototype.hide=function(){this.css("display","none");return this;}
-HTMLCollection.prototype.show=function(){this.css("display","unset");return this;}
+NodeList.prototype.hide=function(){
+    this.css("display","none");
+    return this;
+}
+NodeList.prototype.show=function(){
+    this.css("display","");
+    return this;
+}
+NodeList.prototype.setAttribute=function(k,v){
+    for(let i = 0; i < this.length; i++) this[i].setAttribute(k,v);
+    return this;
+}
+NodeList.prototype.removeAttribute=function(k){
+    for(let i = 0; i < this.length; i++) this[i].removeAttribute(k);
+    return this;
+}
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 if(HTMLElement){
     HTMLElement.prototype.css=function(a,b){
         if(b !== undefined){this.style.setProperty(a,b); return this;}
         else if(isJSONObject(a)){
-            for(k in a) this.style.setProperty(k,a[k]);
+            for(let k = 0; k < a.length; k++) this.style.setProperty(k,a[k]);
             return this;
         }
         else{//本来需要转驼峰才能正常，不知为何不转也可以
@@ -183,7 +178,7 @@ function setCookie(k,v,e){
 function removeCookie(k){setCookie(k,"",-1);}
 
 //获取滚动条宽度
-scrollBarWidth = getScrollBarWidth();
+var scrollBarWidth = getScrollBarWidth();
 function getScrollBarWidth(o){
     let n,s,d;
     if(o === undefined) d = document.createElement("div");
