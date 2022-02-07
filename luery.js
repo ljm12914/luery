@@ -4,10 +4,9 @@
  */
 "use strict";
 console.log("luery.js ©LJM12914\r\nhttps://github.com/ljm12914");
-var lueryShortCut = "$";
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 (()=>{
-    eval("window.luery = window."+lueryShortCut+" = luery;");
+    eval("window.luery = window." + (window.lueryShortCut || "$") + " = luery;");
     function luery(s){return new luery.prototype.processInput(s);}
     luery.prototype = {
         constructor:luery,
