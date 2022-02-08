@@ -60,10 +60,10 @@ console.log("luery.js ©LJM12914\r\nhttps://github.com/ljm12914");
             let d = new Date;
             d.setTime(d.getTime() + e * 24 * 60 * 60 * 1000);
             document.cookie = k + "=" + v + "; expires=" + d.toUTCString();
-            return $.getCookie(k);
+            return luery.getCookie(k);
         },
         //删除cookie
-        removeCookie:k=>{$.setCookie(k,"",-1);},
+        removeCookie:k=>{luery.setCookie(k,"",-1);},
         //获取滚动条宽度
         scrollBarWidth:o=>{
             let n,s,d;
@@ -87,11 +87,11 @@ console.log("luery.js ©LJM12914\r\nhttps://github.com/ljm12914");
             switch(t){
                 case "t": return parseInt(o.css("top").replace("px",""));
                 case "ft": return o.getBoundingClientRect().top;
-                case "b": return $.tt(o,"t") + $.tt(o,"h");
+                case "b": return luery.tt(o,"t") + luery.tt(o,"h");
                 case "fb": return o.getBoundingClientRect().bottom;
                 case "l": return parseInt(o.css("left").replace("px",""));
                 case "fl": return o.getBoundingClientRect().left;
-                case "r": return $.tt(o,"l") + $.tt(o,"w");
+                case "r": return luery.tt(o,"l") + luery.tt(o,"w");
                 case "fr": return o.getBoundingClientRect().right;
                 case "h": return o.offsetHeight;
                 case "w": return o.offsetWidth;
