@@ -60,10 +60,10 @@ console.log("luery.js ©LJM12914\r\nhttps://github.com/ljm12914");
             let d = new Date;
             d.setTime(d.getTime() + e * 24 * 60 * 60 * 1000);
             document.cookie = k + "=" + v + "; expires=" + d.toUTCString();
-            return getCookie(k);
+            return $.getCookie(k);
         },
         //删除cookie
-        removeCookie:k=>{setCookie(k,"",-1);},
+        removeCookie:k=>{$.setCookie(k,"",-1);},
         //获取滚动条宽度
         scrollBarWidth:o=>{
             let n,s,d;
@@ -140,9 +140,10 @@ NodeList.p.removeAttribute=function(k){
     return this;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
-if(HTMLElement){
-    HTMLElement.p = HTMLElement.prototype;
-    HTMLElement.p.css=function(a,b){
+if(HTMLElement && SVGElement){
+    SVGElement.p=SVGElement.prototype;
+    HTMLElement.p=HTMLElement.prototype;
+    SVGElement.p.css=HTMLElement.p.css=function(a,b){
         if(b !== undefined){this.style.setProperty(a,b); return this;}
         else if(luery.isJSONObject(a)){
             for(let k in a) this.style.setProperty(k,a[k]);
@@ -153,14 +154,14 @@ if(HTMLElement){
             else return Element.currentStyle[a];
         }
     }
-    HTMLElement.p.hasClass=function(c){return !!this.className.match(new RegExp("(\\s|^)" + c + "(\\s|$)"));}
-    HTMLElement.p.addClass=function(c){
+    SVGElement.p.hasClass=HTMLElement.p.hasClass=function(c){return !!this.className.match(new RegExp("(\\s|^)" + c + "(\\s|$)"));}
+    SVGElement.p.addClass=HTMLElement.p.addClass=function(c){
         if(!c) luery.E();
         if(this.className == "") this.className += c;
         else this.className += " " + c;
         return this;
     }
-    HTMLElement.p.removeClass=function(c){
+    SVGElement.p.removeClass=HTMLElement.p.removeClass=function(c){
         if(!!c.match(" ")) luery.E();
         if(this.hasClass(c)){
             this.className = this.className.replace(c,"");
@@ -169,10 +170,10 @@ if(HTMLElement){
         }
         return this;
     }
-    HTMLElement.p.parent=function(){return this.parentNode || this.parentElement;}
-    HTMLElement.p.hide=function(){this.css("display","none");return this;}
-    HTMLElement.p.show=function(){this.css("display","unset");return this;}
-    HTMLElement.p.isInClass=function(c){
+    SVGElement.p.parent=HTMLElement.p.parent=function(){return this.parentNode || this.parentElement;}
+    SVGElement.p.hide=HTMLElement.p.hide=function(){this.css("display","none");return this;}
+    SVGElement.p.show=HTMLElement.p.show=function(){this.css("display","unset");return this;}
+    SVGElement.p.isInClass=HTMLElement.p.isInClass=function(c){
         if(!c) luery.E();
         let o = this;
         while(true){
@@ -181,7 +182,7 @@ if(HTMLElement){
             o = o.parent();
         }
     }
-    HTMLElement.p.isInId=function(c){
+    SVGElement.p.isInId=HTMLElement.p.isInId=function(c){
         if(!c) luery.E();
         let o = this;
         while(true){
@@ -190,7 +191,7 @@ if(HTMLElement){
             o = o.parent();
         }
     }
-    HTMLElement.p.getParentByClass=function(c){
+    SVGElement.p.getParentByClass=HTMLElement.p.getParentByClass=function(c){
         if(!c) luery.E();
         let o = this;
         while(true){
