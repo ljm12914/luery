@@ -104,6 +104,7 @@ console.log("luery.js ©LJM12914\r\nhttps://github.com/ljm12914");
         }
     });
 })();
+function $$(o){return $(o)[0];}
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 NodeList.p = NodeList.prototype;
 NodeList.p.css=function(a,b){//只允许set，因为get多个可能出现冲突
