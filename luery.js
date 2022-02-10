@@ -14,6 +14,7 @@ console.log("luery.js ©LJM12914\r\nhttps://github.com/ljm12914");
             if(!s) luery.E();
             else if(typeof s == "string"){
                 let a = document.querySelectorAll(s);
+                if(a.length == 0) return [];
                 if(a.length == 1 && s.match(/^.*#[^\s]*$/)) return a[0];
                 else return a;
             }
@@ -21,12 +22,14 @@ console.log("luery.js ©LJM12914\r\nhttps://github.com/ljm12914");
     }
     luery.addFunc = luery.prototype.addFunc = function(o){for(let k in o) this[k]=o[k];}
     luery.addFunc({
+        //抛错误
+        E:_=>{throw new TypeError("Invalid argument");},
         //批量绑定事件
         Events:(o,e,f)=>{
+            if(o.length == 0) luery.E();
             if(!((o + "").indexOf("NodeList") + 1)) o.addEventListener(e,f);
             else if(!((o + "").indexOf("Element") + 1)) for(let i = 0; i < o.length; i++) o[i].addEventListener(e,f);
         },
-        E:_=>{throw new TypeError("Invalid argument");},
         //判断JSON文本
         isJSONText:s=>{
             if(typeof s == "string"){
