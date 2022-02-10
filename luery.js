@@ -12,7 +12,11 @@ console.log("luery.js ©LJM12914\r\nhttps://github.com/ljm12914");
         constructor:luery,
         processInput:function(s){
             if(!s) luery.E();
-            else if(typeof s == "string") return document.querySelectorAll(s);
+            else if(typeof s == "string"){
+                let a = document.querySelectorAll(s);
+                if(a.length == 1 && s.match(/^.*#[^\s]*$/)) return a[0];
+                else return a;
+            }
         }
     }
     luery.addFunc = luery.prototype.addFunc = function(o){for(let k in o) this[k]=o[k];}
@@ -104,7 +108,6 @@ console.log("luery.js ©LJM12914\r\nhttps://github.com/ljm12914");
         }
     });
 })();
-function $$(o){return $(o)[0];}
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 NodeList.p = NodeList.prototype;
 NodeList.p.css=function(a,b){//只允许set，因为get多个可能出现冲突
