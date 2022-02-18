@@ -6,7 +6,8 @@
 console.log("luery.js ©LJM12914\r\nhttps://github.com/ljm12914");
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 (_=>{
-    eval("window.luery = window." + (window.lueryShortCut || "$") + " = luery;");
+    window.luery = luery;
+    eval("window." + (window.lueryShortCut || "$") + " = luery;");
     function luery(s){return new luery.prototype.processInput(s);}
     luery.p = luery.prototype = {
         constructor:luery,
