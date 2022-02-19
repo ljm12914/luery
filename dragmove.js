@@ -1,6 +1,6 @@
 "use strict";
 var DM = function(){
-    var dLeft,dTop,o,cb,c,cDown,isMoving = false;
+    var dLeft,dTop,o,cb,c,cDown,isMoving = false, $ = luery;
     this.register = (_o,_cb,_c,_cDown)=>{
         o = _o;
         cb = _cb;
@@ -8,31 +8,31 @@ var DM = function(){
         cDown = _cDown;
         if(!c) c = "grab";
         o.css("cursor",c);
-        luery.Events(o,"mousedown",e=>{
+        $.Events(o,"mousedown",e=>{
             css(true);
             down(e,false);
         });
-        luery.Events(o,"touchstart",e=>{
+        $.Events(o,"touchstart",e=>{
             css(true);
             down(e,true);
         });
-        luery.Events(o,"mousemove",e=>{move(e,false)});
-        luery.Events(o,"touchmove",e=>{move(e,true)});
-        luery.Events(o,"mouseup",e=>{
+        $.Events(o,"mousemove",e=>{move(e,false)});
+        $.Events(o,"touchmove",e=>{move(e,true)});
+        $.Events(o,"mouseup",e=>{
             css(false);
             up(e,false);
         });
-        luery.Events(o,"touchend",e=>{
+        $.Events(o,"touchend",e=>{
             css(false);
             up(e,true);
         });
-        luery.Events(luery("*"),"mousemove",e=>{move(e,false)});
-        luery.Events(luery("*"),"touchmove",e=>{move(e,true)});
-        luery.Events(luery("*"),"mouseup",e=>{
+        $.Events($("*"),"mousemove",e=>{move(e,false)});
+        $.Events($("*"),"touchmove",e=>{move(e,true)});
+        $.Events($("*"),"mouseup",e=>{
             css(false);
             up(e,false);
         });
-        luery.Events(luery("*"),"touchend",e=>{
+        $.Events($("*"),"touchend",e=>{
             css(false);
             up(e,true);
         });
@@ -40,12 +40,12 @@ var DM = function(){
     function down(e,isTouch){
         isMoving = true;
         if(isTouch){
-            dTop = e.touches[0].clientY - luery.tt(o,"ft");
-            dLeft = e.touches[0].clientX - luery.tt(o,"fl");
+            dTop = e.touches[0].clientY - $.tt(o,"ft");
+            dLeft = e.touches[0].clientX - $.tt(o,"fl");
         }
         else{
-            dTop = e.clientY - luery.tt(o,"ft");
-            dLeft = e.clientX - luery.tt(o,"fl");
+            dTop = e.clientY - $.tt(o,"ft");
+            dLeft = e.clientX - $.tt(o,"fl");
         }
         cb(e,0,isTouch,dTop,dLeft);
     }
@@ -60,10 +60,11 @@ var DM = function(){
                 t = e.clientY - dTop;
                 l = e.clientX - dLeft;
             }
-            o.css("top",t + "px");
-            o.css("left",l + "px");
-            checkWinPos(o);
-            cb(e,1,isTouch,t,l);
+            if(cb(e,1,isTouch,t,l) !== true){
+                o.css("top",t + "px");
+                o.css("left",l + "px");
+                checkWinPos(o);
+            }
         }
     }
     function up(e,isTouch){
@@ -72,23 +73,23 @@ var DM = function(){
             cb(e,2,isTouch);
         }
     }
-    function checkWinPos(o){
-        if(luery.tt(o,"fr") > document.body.clientWidth) o.css("left",document.body.clientWidth - luery.tt(o,"w") + "px");
-        if(luery.tt(o,"fb") > innerHeight) o.css("top",innerHeight - luery.tt(o,"h") + "px");
-        if(luery.tt(o,"fl") < 0) o.css("left",0);
-        if(luery.tt(o,"ft") < 0) o.css("top",0);
-        if(luery.tt(o,"t") < 0) o.css("top",0);
+    var checkWinPos = this.checkWinPos = o=>{
+        if($.tt(o,"fr") > document.body.clientWidth) o.css("left",document.body.clientWidth - $.tt(o,"w") + "px");
+        if($.tt(o,"fb") > innerHeight) o.css("top",innerHeight - $.tt(o,"h") + "px");
+        if($.tt(o,"fl") < 0) o.css("left",0);
+        if($.tt(o,"ft") < 0) o.css("top",0);
+        if($.tt(o,"t") < 0) o.css("top",0);
     }
     function css(isDown){
         if(isDown === true){
-            luery("*").css({"cursor":"grabbing","user-select":"none","-webkit-user-drag":"none"});
+            $("*").css({"cursor":"grabbing","user-select":"none","-webkit-user-drag":"none"});
             if(cDown){
                 o.css("cursor",cDown);
-                luery("*").css("cursor",cDown);
+                $("*").css("cursor",cDown);
                 return;
             }
         }
-        else if(isDown === false) delStyle(luery("html")[0]);
+        else if(isDown === false) delStyle($("html")[0]);
         o.css("cursor",c);
     }
     function delStyle(d){
