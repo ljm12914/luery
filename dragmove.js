@@ -1,5 +1,5 @@
 "use strict";
-var DM = function(){
+function DM(){
     var dLeft,dTop,o,cb,c,cDown,isMoving = false, $ = luery;
     this.register = (_o,_cb,_c,_cDown)=>{
         o = _o;
