@@ -109,11 +109,13 @@ console.log("luery.js ©LJM12914\r\nhttps://github.com/ljm12914");
                 case "w": return o.offsetWidth;
                 case "dh": return o.clientHeight;
                 case "dw": return o.clientWidth;
+                case "bh": return b("height");
+                case "bw": return b("width");
                 case "ph": return b("height") - d("padding-top") - d("padding-bottom") - d("border-top-width") - d("border-bottom-width");
                 case "pw": return b("width") - d("padding-left") - d("padding-right") - d("border-left-width") - d("border-right-width");
                 default: luery.E();
             }
-            function d(a){return parseInt(o.css(a).replace("px",""));}
+            function d(a){return parseFloat(o.css(a).replace("px",""));}
             function b(a){return eval("o.getBoundingClientRect()." + a);}
         }
     });
