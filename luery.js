@@ -1,9 +1,9 @@
-﻿/* luery.js - ©LJM12914.https://github.com/ljm12914
+﻿/* luery.js - ©LJM12914.https://github.com/ljm12914/luery
  * 一个轻量级的Javascript拓展库。
  * Herobrine保佑 永不出bug
  */
 "use strict";
-console.log("luery.js ©LJM12914\r\nhttps://github.com/ljm12914");
+console.log("luery.js ©LJM12914\r\nhttps://github.com/ljm12914/luery\r\nYou are using unminified file, which is not suitable.");
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 (_=>{
     window.luery = luery;
@@ -96,27 +96,33 @@ console.log("luery.js ©LJM12914\r\nhttps://github.com/ljm12914");
             var h = luery.tt;
             switch(t){
                 case "t": return d("top");
-                case "ft": return b("top");
+                case "ft": return f().t;
                 case "b": return h(o,"t") + h(o,"h");
-                case "fb": return b("bottom");
+                case "fb": return f().t + h(o,"h");
                 case "l": return d("left");
-                case "fl": return b("left");
+                case "fl": return f().l;
                 case "r": return h(o,"l") + h(o,"w");
-                case "fr": return b("right");
+                case "fr": return f().l + h(o,"w");
                 case "ah": return o.outerHeight;
                 case "aw": return o.outerWidth;
                 case "h": return o.offsetHeight;
                 case "w": return o.offsetWidth;
                 case "dh": return o.clientHeight;
                 case "dw": return o.clientWidth;
-                case "bh": return b("height");
-                case "bw": return b("width");
-                case "ph": return b("height") - d("padding-top") - d("padding-bottom") - d("border-top-width") - d("border-bottom-width");
-                case "pw": return b("width") - d("padding-left") - d("padding-right") - d("border-left-width") - d("border-right-width");
+                case "ph": return h(o,"dh") - d("padding-top") - d("padding-bottom");
+                case "pw": return h(o,"dw") - d("padding-left") - d("padding-right");
                 default: luery.E();
             }
+            function f(){
+                var t = o.offsetTop, l = o.offsetLeft, c = o.offsetParent;
+                while(c !== null){
+                    t += c.offsetTop;
+                    l += c.offsetLeft;
+                    c = c.offsetParent;
+                }
+                return {t:t,l:l};
+            }
             function d(a){return parseFloat(o.css(a).replace("px",""));}
-            function b(a){return eval("o.getBoundingClientRect()." + a);}
         }
     });
 })();
@@ -124,8 +130,8 @@ console.log("luery.js ©LJM12914\r\nhttps://github.com/ljm12914");
 (_=>{
     var $ = luery;
     if(NodeList){
-        let np = NodeList.prototype;
-        np.css=function(a,b){//只允许set，因为get多个可能出现冲突
+        let g = NodeList.prototype;
+        g.css=function(a,b){//只允许set，因为get多个可能出现冲突
             if(b === undefined && !$.isJSONObject(a)) $.E();
             for(let i = 0; i < this.length; i++){
                 if(b !== undefined) this[i].style.setProperty(a,b);
@@ -134,27 +140,27 @@ console.log("luery.js ©LJM12914\r\nhttps://github.com/ljm12914");
             return this;
         }
         //.prototype.hasClass=function(c){} 不可能同时给一大堆元素判断是否有class吧
-        np.addClass=function(c){
+        g.addClass=function(c){
             for(let i = 0; i < this.length; i++) this[i].addClass(c);
             return this;
         }
-        np.removeClass=function(c){
+        g.removeClass=function(c){
             for(let i = 0; i < this.length; i++) this[i].removeClass(c);
             return this;
         }
-        np.hide=function(){
+        g.hide=function(){
             this.css("display","none");
             return this;
         }
-        np.show=function(){
+        g.show=function(){
             this.css("display","");
             return this;
         }
-        np.setAttribute=function(k,v){
+        g.setAttribute=function(k,v){
             for(let i = 0; i < this.length; i++) this[i].setAttribute(k,v);
             return this;
         }
-        np.removeAttribute=function(k){
+        g.removeAttribute=function(k){
             for(let i = 0; i < this.length; i++) this[i].removeAttribute(k);
             return this;
         }
@@ -162,9 +168,9 @@ console.log("luery.js ©LJM12914\r\nhttps://github.com/ljm12914");
     else lueryFail();
 
     if(HTMLElement && SVGElement){
-        let sp = SVGElement.prototype,
-        hp = HTMLElement.prototype;
-        sp.css=hp.css=function(a,b){
+        let v = SVGElement.prototype,
+        h = HTMLElement.prototype;
+        v.css=h.css=function(a,b){
             if(b !== undefined){this.style.setProperty(a,b); return this;}
             else if($.isJSONObject(a)){
                 for(let k in a) this.style.setProperty(k,a[k]);
@@ -175,14 +181,14 @@ console.log("luery.js ©LJM12914\r\nhttps://github.com/ljm12914");
                 else return Element.currentStyle[a];
             }
         }
-        sp.hasClass=hp.hasClass=function(c){return !!this.className.match(new RegExp("(\\s|^)" + c + "(\\s|$)"));}
-        sp.addClass=hp.addClass=function(c){
+        v.hasClass=h.hasClass=function(c){return !!this.className.match(new RegExp("(\\s|^)" + c + "(\\s|$)"));}
+        v.addClass=h.addClass=function(c){
             if(!c) $.E();
             if(this.className == "") this.className += c;
             else this.className += " " + c;
             return this;
         }
-        sp.removeClass=hp.removeClass=function(c){
+        v.removeClass=h.removeClass=function(c){
             if(!!c.match(" ")) $.E();
             if(this.hasClass(c)){
                 this.className = this.className.replace(c,"");
@@ -191,35 +197,35 @@ console.log("luery.js ©LJM12914\r\nhttps://github.com/ljm12914");
             }
             return this;
         }
-        sp.parent=hp.parent=function(){return this.parentNode || this.parentElement;}
-        sp.hide=hp.hide=function(){this.css("display","none");return this;}
-        sp.show=hp.show=function(){this.css("display","unset");return this;}
-        sp.isInClass=hp.isInClass=function(c){
+        v.parent=h.parent=function(){return this.parentNode || this.parentElement;}
+        v.hide=h.hide=function(){this.css("display","none");return this;}
+        v.show=h.show=function(){this.css("display","unset");return this;}
+        v.isInClass=h.isInClass=function(c){
             if(!c) $.E();
             let o = this;
-            while(true){
+            while(o.tagName != "HTML"){
                 if(o.hasClass(c)) return true;
-                if(o.tagName == "HTML") return false;
                 o = o.parent();
             }
+            return false;
         }
-        sp.isInId=hp.isInId=function(c){
+        v.isInId=h.isInId=function(c){
             if(!c) $.E();
             let o = this;
-            while(true){
-                if(o.id === c) return true;
-                if(o.tagName == "HTML") return false;
+            while(o.tagName != "HTML"){
+                if(o.id === c) return true; 
                 o = o.parent();
             }
+            return false;
         }
-        sp.getParentByClass=hp.getParentByClass=function(c){
+        v.getParentByClass=h.getParentByClass=function(c){
             if(!c) $.E();
             let o = this;
-            while(true){
+            while(o.tagName != "HTML"){
                 if(o.hasClass(c)) return o;
-                if(o.tagName == "HTML") return null;
                 o = o.parent();
             }
+            return null;
         }
     }
     else lueryFail();
