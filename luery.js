@@ -8,10 +8,10 @@ console.log("luery.js ©LJM12914\r\nhttps://github.com/ljm12914/luery\r\nYou are
 (_=>{
     window.luery = luery;
     eval("window." + (window.lueryShortCut || "$") + " = luery;");
-    function luery(s){return new luery.prototype.processInput(s);}
+    function luery(s){return new luery.prototype.I(s);}
     luery.p = luery.prototype = {
         constructor:luery,
-        processInput:function(s){
+        I:function(s){
             if(!s) luery.E();
             else if(typeof s == "string"){
                 let a = document.querySelectorAll(s);
@@ -30,6 +30,11 @@ console.log("luery.js ©LJM12914\r\nhttps://github.com/ljm12914/luery\r\nYou are
             if(o.length == 0) luery.E();
             if(!((o + "").indexOf("NodeList") + 1)) o.addEventListener(e,f);
             else if(!((o + "").indexOf("Element") + 1)) for(let i = 0; i < o.length; i++) o[i].addEventListener(e,f);
+        },
+        dEvents:(o,e,f)=>{
+            if(o.length == 0) luery.E();
+            if(!((o + "").indexOf("NodeList") + 1)) o.removeEventListener(e,f);
+            else if(!((o + "").indexOf("Element") + 1)) for(let i = 0; i < o.length; i++) o[i].removeEventListener(e,f);
         },
         //判断JSON文本
         isJSONText:s=>{
@@ -116,6 +121,7 @@ console.log("luery.js ©LJM12914\r\nhttps://github.com/ljm12914/luery\r\nYou are
             function f(){
                 var t = o.offsetTop, l = o.offsetLeft, c = o.offsetParent;
                 while(c !== null){
+                    //console.log(c.offsetParent);
                     t += c.offsetTop;
                     l += c.offsetLeft;
                     c = c.offsetParent;
@@ -123,6 +129,9 @@ console.log("luery.js ©LJM12914\r\nhttps://github.com/ljm12914/luery\r\nYou are
                 return {t:t,l:l};
             }
             function d(a){return parseFloat(o.css(a).replace("px",""));}
+        },
+        dom:(o,t)=>{
+
         }
     });
 })();
@@ -156,12 +165,8 @@ console.log("luery.js ©LJM12914\r\nhttps://github.com/ljm12914/luery\r\nYou are
             this.css("display","");
             return this;
         }
-        g.setAttribute=function(k,v){
-            for(let i = 0; i < this.length; i++) this[i].setAttribute(k,v);
-            return this;
-        }
-        g.removeAttribute=function(k){
-            for(let i = 0; i < this.length; i++) this[i].removeAttribute(k);
+        g.attr=function(k,v){
+            for(let i = 0; i < this.length; i++) this[i].attr(k,v);
             return this;
         }
     }
@@ -226,6 +231,14 @@ console.log("luery.js ©LJM12914\r\nhttps://github.com/ljm12914/luery\r\nYou are
                 o = o.parent();
             }
             return null;
+        }
+        v.attr=h.attr=function(k,v){
+            if(v === undefined) return this.getAttribute(k);
+            else{
+                if(v === null) this.removeAttribute(k);
+                else this.setAttribute(k,v);
+                return this;
+            }
         }
     }
     else lueryFail();
