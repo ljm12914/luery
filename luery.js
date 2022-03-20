@@ -3,13 +3,13 @@
  * Herobrine保佑 永不出bug
  */
 "use strict";
-console.log("luery.js ©LJM12914\r\nhttps://github.com/ljm12914/luery\r\nYou are using unminified file, which is not suitable.");
+console.log("luery.js ©LJM12914\r\nhttps://github.com/ljm12914/luery\r\nYou are using unminified file, which is not suitable for production use.");
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 (_=>{
     window.luery = luery;
     eval("window." + (window.lueryShortCut || "$") + " = luery;");
     function luery(s){return new luery.prototype.I(s);}
-    luery.p = luery.prototype = {
+    luery.prototype = {
         constructor:luery,
         I:function(s){
             if(!s) luery.E();
@@ -131,7 +131,7 @@ console.log("luery.js ©LJM12914\r\nhttps://github.com/ljm12914/luery\r\nYou are
             function d(a){return parseFloat(o.css(a).replace("px",""));}
         },
         dom:(o,t)=>{
-
+            //todo:
         }
     });
 })();
