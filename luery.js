@@ -287,6 +287,21 @@ console.log("luery.js ©LJM12914\r\nhttps://github.com/ljm12914/luery\r\nYou are
                 o = o.parent();
             }
             return false;
+        }   
+        v.isInElement=h.isInElement=function(c){
+            if(!c) $.E();
+            let o = this;
+            while(o.tagName != "HTML"){
+                if(o === c) return true; 
+                o = o.parent();
+            }
+            return false;
+        }
+        v.isChildOf=h.isChildOf=function(o){
+            if(!o) $.E();
+            var c = o.childNodes;
+            for(let i = 0; i < c.length; i++) if(c[i] === this) return true;
+            return false;
         }
         v.getParentByClass=h.getParentByClass=function(c){
             if(!c) $.E();
