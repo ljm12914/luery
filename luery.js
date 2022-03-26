@@ -97,7 +97,7 @@ console.log("luery.js ©LJM12914\r\nhttps://github.com/ljm12914/luery\r\nYou are
         //F(ixed)T(op)：相对于当前页面上端的坐标，T(op)：相对于网页上端的坐标，B、L、R一样
         //P(ure)H(eight)：元素本身的高度（盒模型最里面那个纯高度，不包括padding margin border scroll）
         //A(ll)H(eight)：元素所有的高度（outer<height/width>）
-        tt:(o,t)=>{
+        /*tt:(o,t)=>{
             var h = luery.tt;
             switch(t){
                 case "t": return d("top");
@@ -129,9 +129,74 @@ console.log("luery.js ©LJM12914\r\nhttps://github.com/ljm12914/luery\r\nYou are
                 return {t:t,l:l};
             }
             function d(a){return parseFloat(o.css(a).replace("px",""));}
+        },*/
+        dom:(o,phr)=>{
+            var result = 0;
+            if(phr.indexOf("-") != -1){//横轴
+                if(phr.indexOf("--") != -1){//需要本体宽度
+                    getWH("width");
+                    phr.replace("--","-");
+                }
+                mbp(phr.substring(0,phr.indexOf("-")),"left");
+                mbp(phr.substring(phr.indexOf("-") + 1,phr.length),"right");
+            }
+            else if(!phr.indexOf("|") != -1){//纵轴
+                if(phr.indexOf("||") != -1){//需要本体宽度
+                    getWH("height");
+                    phr.replace("||","|");
+                }
+                mbp(phr.substring(0,phr.indexOf("|")),"top");
+                mbp(phr.substring(phr.indexOf("|") + 1,phr.length),"bottom");
+            }
+            return result;
+            function mbp(data,p){
+                if(data.indexOf("m") != -1) result += c("margin-" + p);
+                if(data.indexOf("b") != -1) result += c("border-" + p + "-width");
+                if(data.indexOf("p") != -1) result += c("padding-" + p);
+            }
+            function getWH(p){
+                if(o.css(p) == "auto"){
+                    var o2 = o.cloneNode(true);
+                    o2.css({"display":"block","position":"absolute","top":"-9999rem"});
+                    document.body.append(o2);
+                    result += c(p,o2);
+                    document.body.removeChild(o2);
+                }
+                else result += c(p);
+            }
+            function c(a,d){
+                if(d == undefined) d = o;
+                return parseFloat(d.css(a).replace("px",""));
+            }
         },
-        dom:(o,t)=>{
-            //todo:
+        rect:(o,phr)=>{
+            var $ = luery;
+            var r = $.rect;
+            switch(phr){
+                case "t": return c("top");
+                case "b": return r(o,"t") + $.dom(o,"bp||pb");
+                case "l": return c("left");
+                case "r": return r(o,"l") + $.dom(o,"bp--pb");
+                case "ft": return fix().t;
+                case "fb": return r(o,"ft") + $.dom(o,"bp||pb");
+                case "fl": return fix().l;
+                case "fr": return r(o,"fl") + $.dom(o,"bp--pb");
+                default: $.E();
+            }
+            function fix(){
+                var t = o.offsetTop, l = o.offsetLeft, c = o.offsetParent;
+                while(c !== null){
+                    //console.log(c.offsetParent);
+                    t += c.offsetTop;
+                    l += c.offsetLeft;
+                    c = c.offsetParent;
+                }
+                return {t:t,l:l};
+            }
+            function c(a,d){
+                if(d == undefined) d = o;
+                return parseFloat(d.css(a).replace("px",""));
+            }
         }
     });
 })();
