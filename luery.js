@@ -24,7 +24,7 @@ console.log("luery.js ©LJM12914\r\nhttps://github.com/ljm12914/luery\r\nYou are
     luery.addFunc = luery.prototype.addFunc = function(o){for(let k in o) this[k]=o[k];}
     luery.addFunc({
         //抛错误
-        E:_=>{throw new TypeError("Invalid argument");},
+        E:e=>{throw new TypeError(`Invalid argument${e?" ":""}${e===undefined?"":e}`);},
         //批量绑定事件
         Events:(o,e,f)=>{
             if(o.length == 0) luery.E();
@@ -254,8 +254,10 @@ console.log("luery.js ©LJM12914\r\nhttps://github.com/ljm12914/luery\r\nYou are
         v.hasClass=h.hasClass=function(c){return !!this.className.match(new RegExp("(\\s|^)" + c + "(\\s|$)"));}
         v.addClass=h.addClass=function(c){
             if(!c) $.E();
-            if(this.className == "") this.className += c;
-            else this.className += " " + c;
+            if(!this.hasClass(c)){
+                if(this.className == "") this.className += c;
+                else this.className += " " + c;
+            }
             return this;
         }
         v.removeClass=h.removeClass=function(c){
