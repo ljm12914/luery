@@ -40,12 +40,12 @@ function DM(){
     function down(e,isTouch){
         isMoving = true;
         if(isTouch){
-            dTop = e.touches[0].clientY - $.tt(o,"ft");
-            dLeft = e.touches[0].clientX - $.tt(o,"fl");
+            dTop = e.touches[0].clientY - $.rect(o,"ft");
+            dLeft = e.touches[0].clientX - $.rect(o,"fl");
         }
         else{
-            dTop = e.clientY - $.tt(o,"ft");
-            dLeft = e.clientX - $.tt(o,"fl");
+            dTop = e.clientY - $.rect(o,"ft");
+            dLeft = e.clientX - $.rect(o,"fl");
         }
         cb(e,0,isTouch,dTop,dLeft);
     }
@@ -74,11 +74,11 @@ function DM(){
         }
     }
     var checkWinPos = this.checkWinPos = o=>{
-        if($.tt(o,"fr") > document.body.clientWidth) o.css("left",document.body.clientWidth - $.tt(o,"w") + "px");
-        if($.tt(o,"fb") > innerHeight) o.css("top",innerHeight - $.tt(o,"h") + "px");
-        if($.tt(o,"fl") < 0) o.css("left",0);
-        if($.tt(o,"ft") < 0) o.css("top",0);
-        if($.tt(o,"t") < 0) o.css("top",0);
+        if($.rect(o,"fr") > document.body.clientWidth) o.css("left",document.body.clientWidth - $.rect(o,"w") + "px");
+        if($.rect(o,"fb") > innerHeight) o.css("top",innerHeight - $.rect(o,"h") + "px");
+        if($.rect(o,"fl") < 0) o.css("left",0);
+        if($.rect(o,"ft") < 0) o.css("top",0);
+        if($.rect(o,"t") < 0) o.css("top",0);
     }
     function css(isDown){
         if(isDown === true){
