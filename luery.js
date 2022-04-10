@@ -261,8 +261,11 @@ console.log("luery.js ©LJM12914\r\nhttps://github.com/ljm12914/luery\r\nYou are
             return this;
         }
         v.removeClass=h.removeClass=function(c){
-            if(!!c.match(" ")) $.E();
-            if(this.hasClass(c)){
+            if(!!c.match(" ")){
+                c = c.split(" ");
+                for(let i = 0; i < c.length; i++) this.removeClass(c[i]);
+            }
+            else if(this.hasClass(c)){
                 this.className = this.className.replace(c,"");
                 this.className = this.className.replace(/^\s+|\s+$/g,"");
                 this.className = this.className.replace("  "," ");
