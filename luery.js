@@ -278,6 +278,7 @@ console.log("luery.js ©LJM12914\r\nhttps://github.com/ljm12914/luery\r\nYou are
         v.isInClass=h.isInClass=function(c){
             if(!c) $.E();
             let o = this;
+            if(o === c) return false;
             while(o.tagName != "HTML"){
                 if(o.hasClass(c)) return true;
                 o = o.parent();
@@ -287,6 +288,7 @@ console.log("luery.js ©LJM12914\r\nhttps://github.com/ljm12914/luery\r\nYou are
         v.isInId=h.isInId=function(c){
             if(!c) $.E();
             let o = this;
+            if(o === c) return false;
             while(o.tagName != "HTML"){
                 if(o.id === c) return true; 
                 o = o.parent();
@@ -296,6 +298,7 @@ console.log("luery.js ©LJM12914\r\nhttps://github.com/ljm12914/luery\r\nYou are
         v.isInElement=h.isInElement=function(c){
             if(!c) $.E();
             let o = this;
+            if(o === c) return false;
             while(o.tagName != "HTML"){
                 if(o === c) return true; 
                 o = o.parent();
@@ -311,6 +314,7 @@ console.log("luery.js ©LJM12914\r\nhttps://github.com/ljm12914/luery\r\nYou are
         v.getParentByClass=h.getParentByClass=function(c){
             if(!c) $.E();
             let o = this;
+            o = o.parent();
             while(o.tagName != "HTML"){
                 if(o.hasClass(c)) return o;
                 o = o.parent();
