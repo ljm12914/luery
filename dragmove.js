@@ -1,6 +1,7 @@
 "use strict";
 function DM(){
     var dLeft,dTop,o,cb,c,cDown,isMoving = false, $ = luery;
+    var aaaa = document.createElement("style");
     this.register = (_o,_cb,_c,_cDown)=>{
         o = _o;
         cb = _cb;
@@ -36,6 +37,7 @@ function DM(){
             css(false);
             up(e,true);
         });
+        aaaa.innerText = `body *{cursor:${cDown}!important;user-select:none!important;-webkit-user-drag:none!important;-webkit-user-select:none!important;}`;
     }
     function down(e,isTouch){
         isMoving = true;
@@ -82,19 +84,14 @@ function DM(){
     }
     function css(isDown){
         if(isDown === true){
-            $("*").css({"cursor":"grabbing","user-select":"none","-webkit-user-drag":"none"});
+            document.body.prepend(aaaa);
             if(cDown){
-                o.css("cursor",cDown);
-                $("*").css("cursor",cDown);
+                //o.css("cursor",cDown);
+                //$("*").css("cursor",cDown);
                 return;
             }
         }
-        else if(isDown === false) delStyle($("html")[0]);
+        else if(isDown === false) aaaa.remove();
         o.css("cursor",c);
-    }
-    function delStyle(d){
-        if(d.getAttribute("style") == "cursor: " + cDown + "; user-select: none; -webkit-user-drag: none;") d.removeAttribute("style");
-        else d.css({"cursor":"","user-select":"","-webkit-user-drag":""});
-        for(let i = 0;i < d.children.length; i++) delStyle(d.children[i]);
     }
 }
