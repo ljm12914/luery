@@ -1,5 +1,5 @@
 # luery
-LJM12914's JS library.
+LJM12914's tool library.
 
 注意：**该JavaScript库含有大量bug和少量功能**，仅供研究和我个人使用，他人请勿使用，否则后果请您自负，不要像某些人一样开源库出了问题就去找作者算账。
 
