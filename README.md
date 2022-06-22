@@ -9,4 +9,4 @@ LJM12914's tool library.
 - 使用`luery.addFunc({customFunc:(arguments)=>{operations;}})`拓展luery。
 
 ## 安装
-从此处下载或从jsdelivr获取：[`https://cdn.jsdelivr.net/gh/ljm12914/luery@latest/luery.min.js`](https://cdn.jsdelivr.net/gh/ljm12914/luery@latest/luery.min.js)
+从此处下载或从jsdelivr获取：[`https://cdn.jsdelivr.net/gh/retraceFE/luery@latest/luery.min.js`](https://cdn.jsdelivr.net/gh/retraceFE/luery@latest/luery.min.js)
