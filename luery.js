@@ -27,7 +27,7 @@ console.log("luery.js ©LJM12914\r\nhttps://github.com/ljm12914/luery\r\nYou are
         E:e=>{throw new TypeError(`Invalid argument${e?" ":""}${e===undefined?"":e}`);},
         //批量绑定事件
         Events:(o,e,f)=>{
-            if(o.length == 0) luery.E();
+            //if(o.length == 0) luery.E();
             if(!((o + "").indexOf("NodeList") + 1)) o.addEventListener(e,f);
             else if(!((o + "").indexOf("Element") + 1)) for(let i = 0; i < o.length; i++) o[i].addEventListener(e,f);
         },
